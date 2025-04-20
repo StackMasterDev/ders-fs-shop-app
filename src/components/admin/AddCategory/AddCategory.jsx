@@ -1,5 +1,6 @@
 "use client"
 
+import { addCategory } from "@/utils/apiUtils/CategoryUtil";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -10,26 +11,26 @@ const AddCategory = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await fetch("http://localhost:3000/api/categories",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name }),
-            }
+        const res = await addCategory({ name });
 
-
-        )
         if (res.ok) {
             alert("Kategori eklendi");
-            router.push("/admin/categories")
+            router.push("/admin/categories");
+        } else {
+            let errorMessage = "Bir hata oluştu";
+            try {
+                const errorData = await res.json();
+                errorMessage = errorData.message || errorMessage;
+            } catch (err) {
+                const fallbackText = await res.text();
+                errorMessage = fallbackText;
+            }
 
+            console.log("Hata mesajı:", errorMessage);
+            alert(errorMessage);
         }
-        else {
-            alert("Kategori Eklenemedi")
-        }
-    }
+    };
+
     return (
         <div>
             <h2>Kategori Ekle</h2>

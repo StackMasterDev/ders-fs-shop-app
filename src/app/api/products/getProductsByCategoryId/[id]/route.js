@@ -1,7 +1,7 @@
 // -> /api/products/getProductsByCategoryId/id
 
 import Product from "@/models/ProductSchema";
-import connect from "@/utils/dbConnect";
+import connect from "@/utils/db/dbConnect";
 import { NextResponse } from "next/server";
 
 

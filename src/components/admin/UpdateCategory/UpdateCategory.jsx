@@ -2,25 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { fetchOneCategory, updateCategory } from "@/utils/apiUtils/CategoryUtil";
 
-const UpdateCategory = () => {
+const UpdateCategory = ({ id }) => {
     const router = useRouter();
-    const { id } = useParams(); // URL'den id'yi al
+
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(true);
 
     // Kategori bilgilerini çek
     useEffect(() => {
         const fetchCategory = async () => {
-            try {
-                const res = await fetch(`http://localhost:3000/api/categories/${id}`);
-                const data = await res.json();
-                setName(data.name);
-            } catch (err) {
-                console.error("Kategori alınamadı:", err);
-            } finally {
-                setLoading(false);
-            }
+
+            const data = await fetchOneCategory(id);
+            setName(data.name)
+            setLoading(false)
         };
 
         if (id) fetchCategory();
@@ -28,25 +24,15 @@ const UpdateCategory = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-
-        try {
-            const res = await fetch(`http://localhost:3000/api/categories/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id, name }),
-            });
-
-            if (res.ok) {
-                alert("Kategori güncellendi!");
-                router.push("/admin/categories");
-            } else {
-                alert("Güncelleme başarısız.");
-            }
-        } catch (error) {
-            console.error("Güncelleme hatası:", error);
+        const res = await updateCategory(id, name);
+        if (res.ok) {
+            alert("katerogi güncellendi");
+            router.push("/admin/categories")
         }
+        else {
+            alert("kategori güncellenemedi")
+        }
+
     };
 
     if (loading) return <div>Yükleniyor...</div>;

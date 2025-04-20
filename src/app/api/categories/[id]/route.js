@@ -7,7 +7,7 @@
 
 */
 
-import connect from "@/utils/dbConnect"
+import connect from "@/utils/db/dbConnect"
 import Category from "../../../../models/CategorySchema"
 import { NextResponse } from "next/server";
 import Product from "@/models/ProductSchema";

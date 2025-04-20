@@ -1,5 +1,5 @@
 
-import connect from "@/utils/dbConnect"
+import connect from "@/utils/db/dbConnect"
 import { NextResponse } from "next/server";
 import Category from "../../../models/CategorySchema"
 
@@ -36,7 +36,8 @@ export const POST = async (request) => {
 
         return new NextResponse("Category Eklendi", { status: 200 });
     } catch (error) {
-        return new NextResponse("Kategori ekleme hatası", { status: 500 })
+        return NextResponse.json({ message: "Kategori ekleme hatası" }, { status: 500 });
+
 
     }
 
