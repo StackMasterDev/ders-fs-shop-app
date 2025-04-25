@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./style.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -39,22 +40,31 @@ const CategoryList = () => {
     }
 
     return (
-        <div>
-            <h2>Kategoriler</h2>
-            <Link href="/admin/categories/add">Kategori Ekle</Link>
-            <ul>
+        <div className={styles.container}>
+            <h2 className={styles.title}>Kategoriler</h2>
+            <Link href="/admin/categories/add" className={styles.addLink}>
+                Kategori Ekle
+            </Link>
+            <ul className={styles.list}>
                 {categories.map((category) => (
-                    <li key={category._id}>{category.name}
-                        <button 
-                        onClick={() => deleteCategory(category._id)} style={{ marginLeft: 10 }}>
-                            <MdDelete color="red" />
-                        </button>
-                        <button
-                            onClick={() => router.push(`/admin/categories/update/${category._id}`)}
-                            style={{ marginLeft: 10 }}
-                        >
-                            <MdUpdate color="blue" />
-                        </button>
+                    <li key={category._id} className={styles.listItem}>
+                        {category.name}
+                        <div className={styles.actions}>
+                            <button
+                                onClick={() => deleteCategory(category._id)}
+                                className={styles.iconButton}
+                                title="Sil"
+                            >
+                                <MdDelete color="red" size={20} />
+                            </button>
+                            <button
+                                onClick={() => router.push(`/admin/categories/update/${category._id}`)}
+                                className={styles.iconButton}
+                                title="Güncelle"
+                            >
+                                <MdUpdate color="blue" size={20} />
+                            </button>
+                        </div>
                     </li>
                 ))}
             </ul>

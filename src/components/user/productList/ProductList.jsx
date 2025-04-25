@@ -25,14 +25,15 @@ const ProductList = () => {
     if (loading) {
         return <p>Loading...</p>
     }
-
+    // /products/[id]
     return (
 
         <div>
 
-            <ul>
+
+            <ul >
                 {products.map((product) => (
-                    <li key={product._id}>{product.name}
+                    <li onClick={() => router.push(`/products/${product._id}`)} key={product._id}>{product.name}
                         <Image src={product.image} width={100} height={100} />
 
                     </li>
